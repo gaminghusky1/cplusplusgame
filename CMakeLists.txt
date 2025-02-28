@@ -10,7 +10,7 @@ find_package(SDL2_image REQUIRED)
 include_directories(/opt/homebrew/include)
 link_directories(/opt/homebrew/lib)
 
-add_executable(cplusplusgame main.cpp)
+add_executable(cplusplusgame main.cpp Player.h Player.cpp)
 
 target_link_libraries(cplusplusgame SDL2 SDL2main)
 target_link_libraries(cplusplusgame SDL2 SDL2_image)

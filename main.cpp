@@ -2,13 +2,12 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <iostream>
+#include "Player.h"
 
-const int SCREEN_WIDTH = 1000;
-const int SCREEN_HEIGHT = 1000;
-const int PLAYER_HEIGHT = 100;
-const int PLAYER_WIDTH = 100;
 const int FPS = 60;
 const double frameTime = 1.0 / FPS;
+const int WINDOW_WIDTH = 1250;
+const int WINDOW_HEIGHT = 750;
 
 Uint32 getHex(int r, int g, int b) {
     return SDL_MapRGB(SDL_AllocFormat(SDL_PIXELFORMAT_RGBA8888), r, g, b);
@@ -29,7 +28,7 @@ int main() {
     SDL_Window* window = SDL_CreateWindow("Game",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
-                                          SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+                                          WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     if (!window) {
         std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         SDL_Quit();
@@ -48,13 +47,15 @@ int main() {
     SDL_Texture* playerImg = SDL_CreateTextureFromSurface(renderer, temp);
     SDL_FreeSurface(temp);
 
+    int playerHeight = 50;
+    int playerWidth = 50;
+
+    SDL_Rect playerRect = {WINDOW_WIDTH / 2 - playerWidth / 2, WINDOW_HEIGHT / 2 - playerHeight / 2, playerWidth, playerHeight};
+
+    Player player = Player(playerRect, playerImg, 300);
+
     bool running = true;
     SDL_Event event;
-
-    double xPos = SCREEN_WIDTH / 2.0 - PLAYER_WIDTH / 2.0;
-    double yPos = SCREEN_HEIGHT / 2.0 - PLAYER_HEIGHT / 2.0;
-    // frames per second
-    int velocity = 500;
 
     bool w_held = false;
     bool a_held = false;
@@ -106,16 +107,7 @@ int main() {
                 }
             }
         }
-        if (w_held) yPos -= velocity * dt;
-        if (a_held) xPos -= velocity * dt;
-        if (s_held) yPos += velocity * dt;
-        if (d_held) xPos += velocity * dt;
-
-        // Make sure player does not go past edge of window
-        if (xPos < 0) xPos = 0;
-        if (xPos + PLAYER_WIDTH > SCREEN_WIDTH) xPos = SCREEN_WIDTH - PLAYER_WIDTH;
-        if (yPos < 0) yPos = 0;
-        if (yPos + PLAYER_WIDTH > SCREEN_HEIGHT) yPos = SCREEN_HEIGHT - PLAYER_WIDTH;
+        player.update(dt, d_held - a_held, s_held - w_held, std::make_pair(WINDOW_WIDTH, WINDOW_HEIGHT));
 
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
@@ -123,8 +115,7 @@ int main() {
 
         // filledCircleColor(renderer, xPos, yPos, CIRCLE_RADIUS, getHex(255, 255, 255));
         // Draw player onto screen
-        SDL_Rect playerRect = {static_cast<int>(std::round(xPos)), static_cast<int>(std::round(yPos)), PLAYER_WIDTH, PLAYER_HEIGHT};
-        SDL_RenderCopy(renderer, playerImg, nullptr, &playerRect);
+        player.render(renderer);
 
         SDL_RenderPresent(renderer);
 

@@ -56,6 +56,13 @@ build CMakeFiles/cplusplusgame.dir/main.cpp.o: CXX_COMPILER__cplusplusgame_unsca
   OBJECT_DIR = CMakeFiles/cplusplusgame.dir
   OBJECT_FILE_DIR = CMakeFiles/cplusplusgame.dir
 
+build CMakeFiles/cplusplusgame.dir/Player.cpp.o: CXX_COMPILER__cplusplusgame_unscanned_Debug /Users/JustinMa/CLionProjects/cplusplusgame/Player.cpp || cmake_object_order_depends_target_cplusplusgame
+  DEP_FILE = CMakeFiles/cplusplusgame.dir/Player.cpp.o.d
+  FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  INCLUDES = -I/opt/homebrew/include
+  OBJECT_DIR = CMakeFiles/cplusplusgame.dir
+  OBJECT_FILE_DIR = CMakeFiles/cplusplusgame.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target cplusplusgame
@@ -64,7 +71,7 @@ build CMakeFiles/cplusplusgame.dir/main.cpp.o: CXX_COMPILER__cplusplusgame_unsca
 #############################################
 # Link the executable cplusplusgame
 
-build cplusplusgame: CXX_EXECUTABLE_LINKER__cplusplusgame_Debug CMakeFiles/cplusplusgame.dir/main.cpp.o
+build cplusplusgame: CXX_EXECUTABLE_LINKER__cplusplusgame_Debug CMakeFiles/cplusplusgame.dir/main.cpp.o CMakeFiles/cplusplusgame.dir/Player.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk
   LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  -lSDL2  -lSDL2main  -lSDL2_image  -lSDL2_gfx
   LINK_PATH = -L/opt/homebrew/lib
